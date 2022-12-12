@@ -9,7 +9,7 @@ public interface ItemService {
 
     Item findById(Long id);
 
-    List<Item> findAllByOwnerId(Long OwnerId);
+    List<Item> findAllByOwnerId(Long ownerId);
 
     List<Item> searchAvailable(String req);
 
