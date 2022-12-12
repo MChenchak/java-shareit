@@ -29,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> findAllByOwnerId(Long ownerId) {
         return inMemoryItemStorage.findAll().stream()
-                .filter(item -> item.getOwner().getId() == ownerId)
+                .filter(item -> item.getOwner().getId().equals(ownerId))
                 .collect(Collectors.toList());
     }
 
@@ -38,8 +38,8 @@ public class ItemServiceImpl implements ItemService {
         String str = req.toLowerCase();
         List<Item> result = inMemoryItemStorage.findAll().stream()
                 .filter(item -> (item.getName().toLowerCase().contains(str)
-                                || item.getDescription().toLowerCase().contains(str))
-                                && item.isAvailable() && !str.isEmpty())
+                        || item.getDescription().toLowerCase().contains(str))
+                        && item.isAvailable() && !str.isEmpty())
                 .collect(Collectors.toList());
         return result;
     }
@@ -63,10 +63,9 @@ public class ItemServiceImpl implements ItemService {
     public Item update(Long itemId, Long ownerId, String json) {
         Item item = findById(itemId);
 
-        if (item.getOwner().getId() != ownerId) {
+        if (!item.getOwner().getId().equals(ownerId)) {
             throw new WrongOwnerException("Id владельца не совпадает");
         }
-
 
         Item itemToUpdate = Item.builder()
                 .id(item.getId())

@@ -10,7 +10,5 @@ public interface ItemStorage {
 
     Optional<Item> findById(Long id);
 
-    void deleteUser(Long id);
-
     List<Item> findAll();
 }

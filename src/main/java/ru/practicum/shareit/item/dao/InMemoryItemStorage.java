@@ -27,11 +27,6 @@ public class InMemoryItemStorage implements ItemStorage {
     }
 
     @Override
-    public void deleteUser(Long id) {
-        items.remove(id);
-    }
-
-    @Override
     public List<Item> findAll() {
         return new ArrayList<>(items.values());
     }
