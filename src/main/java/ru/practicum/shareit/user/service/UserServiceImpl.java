@@ -65,6 +65,6 @@ public class UserServiceImpl implements UserService {
 
     private boolean emailExists(User user) {
         return inMemoryUserStorage.findAll().stream()
-                .anyMatch(u -> (u.getEmail().equals(user.getEmail()) && u.getId() != user.getId()));
+                .anyMatch(u -> (u.getEmail().equals(user.getEmail()) && !u.getId().equals(user.getId())));
     }
 }
