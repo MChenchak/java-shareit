@@ -1,5 +1,6 @@
 package ru.practicum.shareit.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,4 +21,23 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> handleWrongOwnerException() {
         return ResponseEntity.notFound().build();
     }
+
+    @ExceptionHandler({
+            AvailableException.class,
+            WrongBookingItemException.class,
+            WrongDateException.class,
+    })
+    public ResponseEntity<?> handleBadRequest() {
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler({
+            BadRequestException.class
+    })
+    public ResponseEntity<ErrorMessage> handleWrongState() {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage("Unknown state: UNSUPPORTED_STATUS"));
+    }
+
 }
