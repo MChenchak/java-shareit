@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking;
+package ru.practicum.shareit.comment.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,35 +8,33 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import java.time.Instant;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "bookings")
+@Table(name = "comments")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Booking {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "start_time")
-    private LocalDateTime start;
+    @Column(name = "text")
+    @NotBlank
+    private String text;
 
-    @Column(name = "end_time")
-    private LocalDateTime end;
+    @JoinColumn(name = "user_id")
+    @ManyToOne
+    private User author;
 
     @JoinColumn(name = "item_id")
-    @OneToOne
+    @ManyToOne
     private Item item;
 
-    @JoinColumn(name = "booker_id")
-    @OneToOne
-    private User booker;
-
-    @Column(name = "status")
-    private String status;
+    @Column(name = "created")
+    private LocalDateTime created;
 }
