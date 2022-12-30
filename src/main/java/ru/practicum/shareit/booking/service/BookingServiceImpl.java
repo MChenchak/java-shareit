@@ -49,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
                 .end(request.getEnd())
                 .booker(booker)
                 .item(item)
-                .status(BookingStatus.WAITING.toString())
+                .status(BookingStatus.WAITING)
                 .build();
 
         return bookingRepository.save(toSave);
@@ -65,16 +65,16 @@ public class BookingServiceImpl implements BookingService {
             throw new WrongOwnerException("Пользователь не может изменить статус");
         }
 
-        if (toChange.getStatus().equals(BookingStatus.APPROVED.toString())) {
+        if (toChange.getStatus().equals(BookingStatus.APPROVED)) {
             throw new WrongBookingItemException(400, "Нельзя изменить статус");
         }
 
         if (approved.equals("true")) {
-            toChange.setStatus(BookingStatus.APPROVED.toString());
+            toChange.setStatus(BookingStatus.APPROVED);
         }
 
         if (approved.equals("false")) {
-            toChange.setStatus(BookingStatus.REJECTED.toString());
+            toChange.setStatus(BookingStatus.REJECTED);
         }
 
         return bookingRepository.save(toChange);
@@ -106,9 +106,9 @@ public class BookingServiceImpl implements BookingService {
             case "FUTURE":
                 return bookingRepository.findAllByBooker_IdAndStartIsAfterOrderByStatusDesc(userId, LocalDateTime.now());
             case "WAITING":
-                return bookingRepository.findAllByBooker_idAndStatusEquals(userId, "WAITING");
+                return bookingRepository.findAllByBooker_idAndStatusEquals(userId, BookingStatus.WAITING);
             case "REJECTED":
-                return bookingRepository.findAllByBooker_idAndStatusEquals(userId, BookingStatus.REJECTED.toString());
+                return bookingRepository.findAllByBooker_idAndStatusEquals(userId, BookingStatus.REJECTED);
             default:
                 throw new BadRequestException("Unknown state: UNSUPPORTED_STATUS");
         }
@@ -132,14 +132,13 @@ public class BookingServiceImpl implements BookingService {
                         LocalDateTime.now()));
                 break;
             case "FUTURE":
-                List<Booking> allBookingsNaw = bookingRepository.findAll();
                 allBookings.addAll(bookingRepository.getFutureUsersItemsBookings(userId, LocalDateTime.now()));
                 break;
             case "WAITING":
-                allBookings.addAll(bookingRepository.findAllByItemOwnerAndStatusEquals(user, BookingStatus.WAITING.toString()));
+                allBookings.addAll(bookingRepository.findAllByItemOwnerAndStatusEquals(user, BookingStatus.WAITING));
                 break;
             case "REJECTED":
-                allBookings.addAll(bookingRepository.findAllByItemOwnerAndStatusEquals(user, BookingStatus.REJECTED.toString()));
+                allBookings.addAll(bookingRepository.findAllByItemOwnerAndStatusEquals(user, BookingStatus.REJECTED));
                 break;
             default:
                 throw new BadRequestException("Unknown state: UNSUPPORTED_STATUS");

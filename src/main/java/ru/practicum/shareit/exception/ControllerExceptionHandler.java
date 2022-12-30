@@ -10,16 +10,20 @@ public class ControllerExceptionHandler {
     @ExceptionHandler({
             NotFoundException.class
     })
-    public ResponseEntity<?> handleNotFoundException() {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<ErrorMessage> handleNotFoundException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorMessage(e.getMessage()));
     }
 
 
     @ExceptionHandler({
             WrongOwnerException.class
     })
-    public ResponseEntity<?> handleWrongOwnerException() {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<ErrorMessage> handleWrongOwnerException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorMessage(e.getMessage()));
     }
 
     @ExceptionHandler({
@@ -27,17 +31,19 @@ public class ControllerExceptionHandler {
             WrongBookingItemException.class,
             WrongDateException.class,
     })
-    public ResponseEntity<?> handleBadRequest() {
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<ErrorMessage> handleBadRequest(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage(e.getMessage()));
     }
 
     @ExceptionHandler({
             BadRequestException.class
     })
-    public ResponseEntity<ErrorMessage> handleWrongState() {
+    public ResponseEntity<ErrorMessage> handleWrongState(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorMessage("Unknown state: UNSUPPORTED_STATUS"));
+                .body(new ErrorMessage(e.getMessage()));
     }
 
 }

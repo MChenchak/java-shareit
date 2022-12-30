@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/bookings")
-public class BooController {
+public class BookingController {
 
     private final BookingService bookingService;
 
@@ -23,7 +23,6 @@ public class BooController {
     public BookingDto findById(
             @PathVariable final Long bookingId,
             @RequestHeader(value = "X-Sharer-User-Id") Long userId) {
-        int d = 4;
         Booking booking = bookingService.findById(bookingId, userId);
         return BookingMapper.toBookingDto(booking);
     }

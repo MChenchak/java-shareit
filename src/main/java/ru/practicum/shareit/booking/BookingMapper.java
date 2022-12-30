@@ -12,7 +12,7 @@ public class BookingMapper {
                     booking.getEnd(),
                     booking.getItem(),
                     booking.getBooker(),
-                    booking.getStatus()
+                    booking.getStatus().getS()
             );
         }
         return null;
