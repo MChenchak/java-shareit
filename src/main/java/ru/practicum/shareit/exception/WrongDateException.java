@@ -1,9 +1,9 @@
 package ru.practicum.shareit.exception;
 
-public class NotFoundException extends RuntimeException {
+public class WrongDateException extends RuntimeException {
     private final int code;
 
-    public NotFoundException(int code, String msg) {
+    public WrongDateException(int code, String msg) {
         super(msg);
         this.code = code;
     }
