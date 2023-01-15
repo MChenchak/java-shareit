@@ -10,13 +10,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.user.model.User;
-import static org.hamcrest.Matchers.is;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -46,7 +46,7 @@ class UserControllerTest {
     }
 
     @Test
-    void findAll() throws Exception{
+    void findAll() throws Exception {
         when(userService.findAll())
                 .thenReturn(List.of(user));
 
@@ -88,7 +88,7 @@ class UserControllerTest {
 
     @Test
     void updateUser() throws Exception {
-        when(userService.update(anyLong(),any()))
+        when(userService.update(anyLong(), any()))
                 .thenReturn(user);
         mockMvc.perform(patch("/users/1")
                         .content(objectMapper.writeValueAsString(user))

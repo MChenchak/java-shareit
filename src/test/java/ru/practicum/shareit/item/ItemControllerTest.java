@@ -1,7 +1,6 @@
 package ru.practicum.shareit.item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import ru.practicum.shareit.item.comment.dto.CommentDto;
 import ru.practicum.shareit.item.comment.model.Comment;
 import ru.practicum.shareit.item.dto.ItemCreateRequestDto;
@@ -144,17 +142,17 @@ public class ItemControllerTest {
     @Test
     void updateItem() throws Exception {
         when(itemService.update(anyLong(), anyLong(), anyString()))
-                .thenReturn(new Item(1L, "name", "desc", true, new User() ,new Request()));
+                .thenReturn(new Item(1L, "name", "desc", true, new User(), new Request()));
 
         String json = "{\"name\": \"newName\"}";
 
         mockMvc.perform(
-                patch("/items/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json)
-                        .param("itemId", "1")
-                        .header("X-Sharer-User-Id", "1")
-                        .accept(MediaType.APPLICATION_JSON))
+                        patch("/items/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json)
+                                .param("itemId", "1")
+                                .header("X-Sharer-User-Id", "1")
+                                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("name")));
 

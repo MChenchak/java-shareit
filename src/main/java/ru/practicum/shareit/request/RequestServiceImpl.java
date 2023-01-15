@@ -25,6 +25,7 @@ public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
 
     private final ItemRepository itemRepository;
+
     @Override
     public Request addRequest(long userId, Request request) {
         User user = userRepository.findById(userId)
