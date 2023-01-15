@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.service;
 
 import ru.practicum.shareit.item.comment.dto.CommentDto;
+import ru.practicum.shareit.item.dto.ItemCreateRequestDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 
@@ -15,7 +16,7 @@ public interface ItemService {
 
     List<Item> searchAvailable(String req);
 
-    Item save(Long ownerId, Item item);
+    Item save(Long ownerId, ItemCreateRequestDto item);
 
     Item update(Long id, Long ownerId, String json);
 
