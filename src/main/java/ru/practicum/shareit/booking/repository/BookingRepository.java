@@ -1,9 +1,10 @@
 package ru.practicum.shareit.booking.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.booking.Booking;
-    import ru.practicum.shareit.booking.BookingStatus;
+import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
@@ -11,30 +12,30 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    List<Booking> findAllByBooker_IdOrderByStartDesc(Long userId);
+    List<Booking> findAllByBooker_Id(Long userId, Pageable pageRequest);
 
-    List<Booking> findAllByBooker_IdAndStartBeforeAndEndAfter(Long userId, LocalDateTime start, LocalDateTime end);
+    List<Booking> findAllByBooker_IdAndStartBeforeAndEndAfter(Long userId, LocalDateTime start, LocalDateTime end, Pageable pageRequest);
 
-    List<Booking> findAllByBooker_IdAndEndBefore(Long userId, LocalDateTime start);
+    List<Booking> findAllByBooker_IdAndEndBefore(Long userId, LocalDateTime start, Pageable pageRequest);
 
-    List<Booking> findAllByBooker_IdAndStartIsAfterOrderByStatusDesc(Long userId, LocalDateTime start);
+    List<Booking> findAllByBooker_IdAndStartIsAfterOrderByStatusDesc(Long userId, LocalDateTime start, Pageable pageRequest);
 
-    List<Booking> findAllByBooker_idAndStatusEquals(Long userId, BookingStatus status);
+    List<Booking> findAllByBooker_idAndStatusEquals(Long userId, BookingStatus status, Pageable pageRequest);
 
     @Query("select b from Booking b Inner join Item i on b.item.id = i.id where i.owner.id = ?1 " +
             "order by b.start desc")
-    List<Booking> getAllUsersItemsBookings(Long userId);
+    List<Booking> getAllUsersItemsBookings(Long userId, Pageable pageRequest);
 
     @Query("select b from Booking b Inner join Item i on b.item.id = i.id where i.owner.id = ?1 " +
             "and b.start > ?2 order by b.start desc")
-    List<Booking> getFutureUsersItemsBookings(Long userId, LocalDateTime nowTime);
+    List<Booking> getFutureUsersItemsBookings(Long userId, LocalDateTime nowTime, Pageable pageRequest);
 
-    List<Booking> findAllByItemOwnerAndEndBefore(User owner, LocalDateTime end);
+    List<Booking> findAllByItemOwnerAndEndBefore(User owner, LocalDateTime end, Pageable pageRequest);
 
     List<Booking> findAllByItemOwnerAndStartBeforeAndEndAfter(User owner, LocalDateTime start,
-                                                              LocalDateTime end);
+                                                              LocalDateTime end, Pageable pageRequest);
 
-    List<Booking> findAllByItemOwnerAndStatusEquals(User owner, BookingStatus status);
+    List<Booking> findAllByItemOwnerAndStatusEquals(User owner, BookingStatus status, Pageable pageRequest);
 
 
     @Query(value = "select * " +

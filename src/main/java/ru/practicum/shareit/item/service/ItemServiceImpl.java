@@ -18,15 +18,19 @@ import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.WrongBookingItemException;
 import ru.practicum.shareit.exception.WrongOwnerException;
 import ru.practicum.shareit.item.ItemMapper;
+import ru.practicum.shareit.item.dto.ItemCreateRequestDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
+import ru.practicum.shareit.request.Request;
+import ru.practicum.shareit.request.RequestRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +41,7 @@ public class ItemServiceImpl implements ItemService {
     private final BookingRepository bookingRepository;
     private final CommentRepository commentRepository;
     private final ObjectMapper objectMapper;
+    private final RequestRepository requestRepository;
 
     @Override
     public List<ItemDto> findAll() {
@@ -133,8 +138,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item save(Long ownerId, Item item) {
+    public Item save(Long ownerId, ItemCreateRequestDto dto) {
         User owner = userService.findById(ownerId);
+        Item item = ItemMapper.createRequestDtoToItem(dto);
+
+        if (dto.getRequestId() != null) {
+            Request request = requestRepository.findById(dto.getRequestId()).orElse(null);
+            item.setRequest(request);
+        }
+
         item.setOwner(owner);
 
         if (!item.isAvailable()) {
