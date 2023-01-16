@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-//@Transactional
 class RequestRepositoryTest {
     @Autowired
     private RequestRepository itemRequestRepository;
