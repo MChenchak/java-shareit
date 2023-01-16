@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.ShareItApp;
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingStatus;
@@ -23,6 +25,7 @@ import static ru.practicum.shareit.booking.BookingStatus.WAITING;
 
 
 @SpringBootTest(classes = ShareItApp.class)
+@Transactional(propagation = Propagation.REQUIRED)
 class BookingRepositoryTest {
     @Autowired
     private BookingRepository bookingRepository;
@@ -34,9 +37,6 @@ class BookingRepositoryTest {
     private ItemRepository itemRepository;
     @Autowired
     private BookingController bookingController;
-
-    @Autowired
-    private BookingService bookingService;
 
     private BookingRequestDto bookingRequestDto;
 
