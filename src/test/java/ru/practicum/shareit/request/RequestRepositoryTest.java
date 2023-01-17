@@ -34,12 +34,14 @@ class RequestRepositoryTest {
                 .email("f@d.ru")
                 .build();
 
-        userRepository.save(user);
-        itemRequestRepository.save(Request.builder()
+        Request request = Request.builder()
                 .description("description")
                 .requestor(user)
                 .created(LocalDateTime.now())
-                .build());
+                .build();
+
+        userRepository.save(user);
+        itemRequestRepository.save(request);
         List<Request> items = itemRequestRepository.getAllByRequestorId(user.getId());
         assertThat(items.size(), equalTo(1));
     }
@@ -51,9 +53,9 @@ class RequestRepositoryTest {
         User user2 = new User(2L, "name2", "ed@d.ru");
         User user3 = new User(3L, "name3", "efdfdfd@d.ru");
 
-        userRepository.save(user);
-        userRepository.save(user2);
-        userRepository.save(user3);
+        user = userRepository.save(user);
+        user2 = userRepository.save(user2);
+        user3 = userRepository.save(user3);
 
         Request request = Request.builder()
                 .description("description1")
