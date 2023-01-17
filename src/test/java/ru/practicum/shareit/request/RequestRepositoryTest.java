@@ -28,7 +28,11 @@ class RequestRepositoryTest {
 
     @Test
     void findAllByRequestorIdOrderByCreatedAscTest() {
-        User user = new User(1L, "name", "d@f.ru");
+        User user = User.builder()
+                .id(1L)
+                .name("name")
+                .email("f@d.ru")
+                .build();
 
         userRepository.save(user);
         itemRequestRepository.save(Request.builder()
