@@ -34,13 +34,14 @@ class RequestRepositoryTest {
                 .email("f@d.ru")
                 .build();
 
+        user = userRepository.save(user);
+
         Request request = Request.builder()
                 .description("description")
                 .requestor(user)
                 .created(LocalDateTime.now())
                 .build();
 
-        userRepository.save(user);
         itemRequestRepository.save(request);
         List<Request> items = itemRequestRepository.getAllByRequestorId(user.getId());
         assertThat(items.size(), equalTo(1));
