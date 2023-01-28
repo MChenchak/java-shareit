@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Не удалось считать данные для обновления пользователя!");
         }
-
+        updated.setId(id);
         return save(updated);
 
     }
