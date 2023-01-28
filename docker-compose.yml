@@ -22,13 +22,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0
 
-  db:
-    image: postgres:13.7-alpine
-    volumes:
-      - /var/lib/postgresql/data/
-    ports:
-      - "6541:5432"
-    environment:
-      - POSTGRES_DB=shareit
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=0
+#  db:
+#    image: postgres:13.7-alpine
+#    volumes:
+#      - /var/lib/postgresql/data/
+#    ports:
+#      - "6541:5432"
+#    environment:
+#      - POSTGRES_DB=shareit
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=0
