@@ -53,7 +53,7 @@ class BookingRepositoryTest {
         user = new User(1L, "name", "f@f.ru");
         user2 = new User(2L, "name2", "fsd@dsf.ru");
 
-        item = new Item(1L, "test", "test", true, user, null);
+        item = new Item(1L, "test", "test", true, null, null);
 
         bookingDto = BookingDto.builder()
                 .id(1L)
@@ -84,6 +84,7 @@ class BookingRepositoryTest {
     void approveBooking() {
         User u = userRepository.save(user);
         userRepository.save(user2);
+        item.setOwner(u);
 
         itemRepository.save(item);
         booking.setBooker(u);
