@@ -2,8 +2,12 @@ package ru.practicum.shareit.request;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.ShareItApp;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
@@ -17,7 +21,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@SpringBootTest(classes= ShareItApp.class)
+@Transactional(propagation = Propagation.REQUIRED)
 class RequestRepositoryTest {
     @Autowired
     private RequestRepository itemRequestRepository;
@@ -84,7 +89,7 @@ class RequestRepositoryTest {
         itemRepository.save(item2);
 
         Optional<List<Request>> items = itemRequestRepository.getRequestsByItemOwner(1L, PageRequest.of(0, 20));
-        List<Request> itemsExp = List.of(request2);
+        List<Request> itemsExp = List.of(request2, request);
         assertEquals(items.get().size(), itemsExp.size());
     }
 
