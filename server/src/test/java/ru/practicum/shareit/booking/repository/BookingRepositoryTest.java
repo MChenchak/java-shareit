@@ -74,8 +74,8 @@ class BookingRepositoryTest {
         booking = Booking.builder()
                 .start(LocalDateTime.of(2023, 1, 10, 10, 30))
                 .end(LocalDateTime.of(2023, 2, 10, 10, 30))
-                .item(item)
-                .booker(user2)
+//                .item(item)
+//                .booker(user2)
                 .status(WAITING)
                 .build();
     }
@@ -89,7 +89,7 @@ class BookingRepositoryTest {
         Item i = itemRepository.save(item);
 
         booking.setItem(i);
-        booking.setBooker(u2);
+        booking.setBooker(u);
 
         Booking b = bookingRepository.save(booking);
 
