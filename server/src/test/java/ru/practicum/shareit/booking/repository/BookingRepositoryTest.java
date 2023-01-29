@@ -26,7 +26,6 @@ import static ru.practicum.shareit.booking.BookingStatus.WAITING;
 
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional(propagation = Propagation.REQUIRED)
 class BookingRepositoryTest {
     @Autowired
@@ -83,14 +82,14 @@ class BookingRepositoryTest {
 
     @Test
     void approveBooking() {
-        userRepository.save(user);
+        User u = userRepository.save(user);
         userRepository.save(user2);
 
         itemRepository.save(item);
-        booking.setBooker(user);
+        booking.setBooker(u);
         bookingRepository.save(booking);
         bookingController.changeStatus(1L, "true", 1L);
-        bookingDto.setBooker(user);
+        bookingDto.setBooker(u);
         bookingDto.setStatus(BookingStatus.APPROVED.getS());
 
         BookingDto bookingDto = bookingController.findById(1L, 1L);
