@@ -84,11 +84,14 @@ class BookingRepositoryTest {
     void approveBooking() {
         User u = userRepository.save(user);
         userRepository.save(user2);
-        item.setOwner(u);
 
+        item.setOwner(u);
         itemRepository.save(item);
-        booking.setBooker(u);
-        bookingRepository.save(booking);
+
+        Booking b = bookingRepository.save(booking);
+        b.setBooker(u);
+        bookingRepository.save(b);
+
         bookingController.changeStatus(1L, "true", 1L);
         bookingDto.setBooker(u);
         bookingDto.setStatus(BookingStatus.APPROVED.getS());
