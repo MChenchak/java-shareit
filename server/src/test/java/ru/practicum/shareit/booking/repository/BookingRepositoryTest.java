@@ -89,15 +89,15 @@ class BookingRepositoryTest {
         Item i = itemRepository.save(item);
 
         booking.setItem(i);
-        booking.setBooker(u);
+        booking.setBooker(u2);
 
         Booking b = bookingRepository.save(booking);
 
-        bookingController.changeStatus(1L, "true", 1L);
+        bookingController.changeStatus(b.getId(), "true", u.getId());
         bookingDto.setBooker(u);
         bookingDto.setStatus(BookingStatus.APPROVED.getS());
 
-        BookingDto bookingDto = bookingController.findById(1L, 1L);
+        BookingDto bookingDto = bookingController.findById(b.getId(), u.getId());
         assertEquals(bookingDto.getStatus(), "APPROVED");
     }
 }
