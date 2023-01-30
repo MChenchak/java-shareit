@@ -9,10 +9,7 @@ import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.repository.BookingRepository;
-import ru.practicum.shareit.exception.AvailableException;
-import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.WrongBookingItemException;
-import ru.practicum.shareit.exception.WrongOwnerException;
+import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.ItemMapper;
 import ru.practicum.shareit.item.comment.dto.CommentDto;
 import ru.practicum.shareit.item.comment.mapper.CommentMapper;
@@ -179,7 +176,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             updated = reader.readValue(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Не удалось считать данные для обновления пользователя!");
+            throw new JsonException("Не удалось считать данные для обновления пользователя!");
         }
 
         return itemRepository.save(updated);

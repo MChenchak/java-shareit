@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.JsonException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
@@ -30,9 +31,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public User save(User user) {
-//        if (emailExists(user)) {
-//            throw new IllegalStateException("Пользователь с таким email уже существует");
-//        }
 
         return userRepository.save(user);
     }
@@ -53,7 +51,7 @@ public class UserServiceImpl implements UserService {
         try {
             updated = reader.readValue(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Не удалось считать данные для обновления пользователя!");
+            throw new JsonException("Не удалось считать данные для обновления пользователя!");
         }
         updated.setId(id);
         return save(updated);
@@ -64,8 +62,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    private boolean emailExists(User user) {
-        return userRepository.findAll().stream()
-                .anyMatch(u -> (u.getEmail().equals(user.getEmail()) && !u.getId().equals(user.getId())));
-    }
 }
